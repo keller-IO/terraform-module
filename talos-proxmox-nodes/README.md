@@ -24,7 +24,7 @@ module "nodes" {
   attach_install_iso = true
 
   nodes = [
-    { name = "talos-cp1", target_pve = "pve1", ip_address = "192.168.10.41", role = "controlplane", allow_scheduling = true },
+    { name = "talos-cp1", target_pve = "pve1", ip_address = "192.168.10.41", role = "controlplane", allow_scheduling = true, attach_install_iso = true },
     { name = "talos-cp2", target_pve = "pve2", ip_address = "192.168.10.42", role = "controlplane", allow_scheduling = true },
     { name = "talos-cp3", target_pve = "pve3", ip_address = "192.168.10.43", role = "controlplane", allow_scheduling = true, cpu_sockets = 2 },
     # { name = "talos-wrk1", target_pve = "pve1", ip_address = "192.168.10.51", role = "worker", longhorn_disk_gb = 0 },
@@ -64,6 +64,7 @@ The `proxmox` provider must be configured by the caller.
 | `ip_address` | yes | Static IPv4 (no CIDR). |
 | `role` | no (`controlplane`) | Passed through to `talos_nodes`. |
 | `allow_scheduling` | no | Passed through to `talos_nodes` (controlplane only). |
+| `attach_install_iso` | no | Per-node override of the module-level `attach_install_iso` setting. |
 | `cpu_cores` / `cpu_sockets` / `cpu_type` / `memory_mb` / `disk_gb` | no | Per-node overrides of the `default_*` values. |
 | `longhorn_disk_gb` | no | Override the Longhorn disk size (`0` = none). |
 | `extra_disks` | no (`[]`) | Additional disks: `{ size, datastore_id?, interface? }`. |

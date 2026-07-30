@@ -113,8 +113,9 @@ variable "nodes" {
     target_pve = string
     ip_address = string
 
-    role             = optional(string, "controlplane")
-    allow_scheduling = optional(bool)
+    role               = optional(string, "controlplane")
+    allow_scheduling   = optional(bool)
+    attach_install_iso = optional(bool)
 
     cpu_cores        = optional(number)
     cpu_sockets      = optional(number)

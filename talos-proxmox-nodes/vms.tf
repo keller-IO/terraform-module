@@ -28,7 +28,7 @@ resource "proxmox_virtual_environment_vm" "talos_node" {
 
   # The installation ISO is optional after Talos has been installed to scsi0.
   dynamic "cdrom" {
-    for_each = var.attach_install_iso ? [1] : []
+    for_each = coalesce(each.value.attach_install_iso, var.attach_install_iso) ? [1] : []
     content {
       file_id = proxmox_download_file.talos_iso.id
     }
@@ -71,7 +71,7 @@ resource "proxmox_virtual_environment_vm" "talos_node" {
 
   boot_order = concat(
     ["scsi0"],
-    var.attach_install_iso ? ["ide3"] : [],
+    coalesce(each.value.attach_install_iso, var.attach_install_iso) ? ["ide3"] : [],
     ["net0"],
   )
 
