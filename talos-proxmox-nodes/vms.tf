@@ -26,9 +26,12 @@ resource "proxmox_virtual_environment_vm" "talos_node" {
     bridge = var.network_bridge
   }
 
-  # Mount the Talos ISO
-  cdrom {
-    file_id = proxmox_download_file.talos_iso.id
+  # The installation ISO is optional after Talos has been installed to scsi0.
+  dynamic "cdrom" {
+    for_each = var.attach_install_iso ? [1] : []
+    content {
+      file_id = proxmox_download_file.talos_iso.id
+    }
   }
 
   # Main OS disk
@@ -66,11 +69,11 @@ resource "proxmox_virtual_environment_vm" "talos_node" {
     type = "l26" # Linux Kernel 2.6+
   }
 
-  boot_order = [
-    "scsi0", # Main disk first
-    "ide3",  # ISO as fallback for initial installation
-    "net0"
-  ]
+  boot_order = concat(
+    ["scsi0"],
+    var.attach_install_iso ? ["ide3"] : [],
+    ["net0"],
+  )
 
   initialization {
     datastore_id = var.vm_storage_id

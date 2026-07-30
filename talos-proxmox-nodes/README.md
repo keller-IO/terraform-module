@@ -19,6 +19,10 @@ module "nodes" {
   vm_storage_id  = "local-lvm"
   iso_storage_id = "NFS-Storage" # shared storage: one ISO download reaches every node
 
+  # Keep true for the initial Talos installation. Set false after bootstrap so
+  # VM autostart no longer depends on the ISO datastore being available.
+  attach_install_iso = true
+
   nodes = [
     { name = "talos-cp1", target_pve = "pve1", ip_address = "192.168.10.41", role = "controlplane", allow_scheduling = true },
     { name = "talos-cp2", target_pve = "pve2", ip_address = "192.168.10.42", role = "controlplane", allow_scheduling = true },
@@ -40,6 +44,7 @@ The `proxmox` provider must be configured by the caller.
 | `image_platform` / `image_arch` | `nocloud` / `amd64` | Used to build the ISO URL. |
 | `vm_storage_id` | `local-lvm` | Datastore for the VM disks. |
 | `iso_storage_id` | `NFS-Storage` | Datastore for the ISO. Use shared storage so one download reaches every node. |
+| `attach_install_iso` | `true` | Attach the Talos ISO and include `ide3` in the boot order. Set to `false` after Talos is installed. |
 | `network_gateway` / `network_subnet` | `192.168.10.1` / `24` | Node networking. |
 | `network_bridge` | `vmbr0` | Proxmox bridge for the VM NIC. |
 | `vm_description` | bundled `talos-desc.html` | Description set on the VMs. |

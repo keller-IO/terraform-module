@@ -16,6 +16,12 @@ variable "iso_storage_id" {
   description = "Datastore for the downloaded Talos ISO. Use shared storage so a single download is reachable from every Proxmox node."
 }
 
+variable "attach_install_iso" {
+  type        = bool
+  default     = true
+  description = "Attach the Talos installation ISO and include it in the VM boot order. Set to false after Talos is installed to remove the runtime dependency on ISO storage."
+}
+
 # ---------------------------------------------------------------------------
 # Talos image (used to build the ISO URL)
 # ---------------------------------------------------------------------------
