@@ -67,6 +67,7 @@ The `proxmox` provider must be configured by the caller.
 | `attach_install_iso` | no | Per-node override of the module-level `attach_install_iso` setting. |
 | `cpu_cores` / `cpu_sockets` / `cpu_type` / `memory_mb` / `disk_gb` | no | Per-node overrides of the `default_*` values. |
 | `longhorn_disk_gb` | no | Override the Longhorn disk size (`0` = none). |
+| `cloudinit_storage_id` | no | Datastore for the cloud-init drive only; falls back to `storage_id`. Changing it on an existing VM powers the VM off (the provider moves the drive). |
 | `storage_id` | no | Datastore for this node's main + Longhorn disks and cloud-init drive. Overrides `vm_storage_id` (e.g. a host that exposes `local_storage` instead of `local-lvm`). |
 | `extra_disks` | no (`[]`) | Additional disks: `{ size, datastore_id?, interface? }`. |
 

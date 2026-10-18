@@ -6,6 +6,13 @@ locals {
     for n in var.nodes : n.name => coalesce(n.storage_id, var.vm_storage_id)
   }
 
+  # Datastore of the cloud-init drive (per-node cloudinit_storage_id, else the
+  # node's effective storage_id). Changing it on an existing VM makes the
+  # provider power the VM off to move the drive, so it can be pinned separately.
+  node_cloudinit_storage_id = {
+    for n in var.nodes : n.name => coalesce(n.cloudinit_storage_id, local.node_storage_id[n.name])
+  }
+
   # Effective Longhorn disk size per node (0 / null => no Longhorn disk).
   node_longhorn_gb = {
     for n in var.nodes : n.name => (

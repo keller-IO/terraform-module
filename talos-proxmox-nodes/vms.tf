@@ -76,7 +76,7 @@ resource "proxmox_virtual_environment_vm" "talos_node" {
   )
 
   initialization {
-    datastore_id = local.node_storage_id[each.key]
+    datastore_id = local.node_cloudinit_storage_id[each.key]
     ip_config {
       ipv4 {
         address = "${each.value.ip_address}/${var.network_subnet}"

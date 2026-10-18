@@ -129,6 +129,11 @@ variable "nodes" {
     # storage name (e.g. local_storage vs. the cluster-wide local-lvm).
     storage_id = optional(string)
 
+    # Datastore for the cloud-init drive only. Falls back to storage_id. Use it
+    # when the system disk was moved but the cloud-init drive was not: moving
+    # that drive via the provider powers the VM off.
+    cloudinit_storage_id = optional(string)
+
     extra_disks = optional(list(object({
       size         = number
       datastore_id = optional(string)
