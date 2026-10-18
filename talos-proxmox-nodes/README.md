@@ -47,7 +47,7 @@ The `proxmox` provider must be configured by the caller.
 | `attach_install_iso` | `true` | Attach the Talos ISO and include `ide3` in the boot order. Set to `false` after Talos is installed. |
 | `network_gateway` / `network_subnet` | `192.168.10.1` / `24` | Node networking. |
 | `network_bridge` | `vmbr0` | Proxmox bridge for the VM NIC. |
-| `vm_description` | bundled `talos-desc.html` | Description set on the VMs. |
+| `vm_description` | bundled `talos-desc.html` | Description set on the VMs at creation. Later changes to description or tags (in code or in Proxmox) are ignored, so node notes maintained in Proxmox survive applies. |
 | `default_cpu_cores` | `2` | Per-node CPU cores (overridable per node). |
 | `default_cpu_sockets` | `1` | Per-node CPU sockets. |
 | `default_cpu_type` | `x86-64-v2-AES` | Per-node CPU type. |

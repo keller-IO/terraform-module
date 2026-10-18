@@ -87,4 +87,11 @@ resource "proxmox_virtual_environment_vm" "talos_node" {
       }
     }
   }
+
+  # Description and tags are only set at creation. Afterwards they belong to the
+  # Proxmox operators (node notes, backup/prod tags) and must not be reset on
+  # every apply. lifecycle cannot be made conditional, so this applies always.
+  lifecycle {
+    ignore_changes = [description, tags]
+  }
 }
