@@ -47,7 +47,7 @@ The `proxmox` provider must be configured by the caller.
 | `attach_install_iso` | `true` | Attach the Talos ISO and include `ide3` in the boot order. Set to `false` after Talos is installed. |
 | `network_gateway` / `network_subnet` | `192.168.10.1` / `24` | Node networking. |
 | `network_bridge` | `vmbr0` | Proxmox bridge for the VM NIC. |
-| `vm_description` | bundled `talos-desc.html` | Description set on the VMs. |
+| `vm_description` | bundled `talos-desc.html` | Description set on the VMs at creation. Later changes to description or tags (in code or in Proxmox) are ignored, so node notes maintained in Proxmox survive applies. |
 | `default_cpu_cores` | `2` | Per-node CPU cores (overridable per node). |
 | `default_cpu_sockets` | `1` | Per-node CPU sockets. |
 | `default_cpu_type` | `x86-64-v2-AES` | Per-node CPU type. |
@@ -67,6 +67,8 @@ The `proxmox` provider must be configured by the caller.
 | `attach_install_iso` | no | Per-node override of the module-level `attach_install_iso` setting. |
 | `cpu_cores` / `cpu_sockets` / `cpu_type` / `memory_mb` / `disk_gb` | no | Per-node overrides of the `default_*` values. |
 | `longhorn_disk_gb` | no | Override the Longhorn disk size (`0` = none). |
+| `cloudinit_storage_id` | no | Datastore for the cloud-init drive only; falls back to `storage_id`. Changing it on an existing VM powers the VM off (the provider moves the drive). |
+| `storage_id` | no | Datastore for this node's main + Longhorn disks and cloud-init drive. Overrides `vm_storage_id` (e.g. a host that exposes `local_storage` instead of `local-lvm`). |
 | `extra_disks` | no (`[]`) | Additional disks: `{ size, datastore_id?, interface? }`. |
 
 ## Outputs

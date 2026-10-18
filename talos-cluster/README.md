@@ -57,6 +57,7 @@ The node IPs must be reachable and booted into Talos maintenance mode before app
 | `longhorn_disk_device` | `/dev/sdb` | Guest device mounted at `/var/lib/longhorn`. |
 | `nodes` | — | List of `{ name, ip_address, role?, allow_scheduling?, longhorn? }`. |
 | `extra_config_patches` | `[]` | Extra Talos config patches applied to every node. |
+| `extra_controlplane_config_patches` | `[]` | Extra Talos config patches applied to control-plane nodes only (after `extra_config_patches`), e.g. `machine.features.kubernetesTalosAPIAccess`, which Talos rejects on workers. |
 
 ## Outputs
 

@@ -91,7 +91,8 @@ data "talos_machine_configuration" "controlplane" {
       hostname   = each.value.name
     })
     ],
-    [for patch in var.extra_config_patches : yamlencode(patch)]
+    [for patch in var.extra_config_patches : yamlencode(patch)],
+    [for patch in var.extra_controlplane_config_patches : yamlencode(patch)]
   )
 }
 
