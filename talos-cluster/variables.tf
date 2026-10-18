@@ -106,3 +106,9 @@ variable "extra_config_patches" {
   type        = list(any)
   default     = []
 }
+
+variable "extra_controlplane_config_patches" {
+  description = "Additional Talos config patches (as objects) applied to control-plane nodes only, after extra_config_patches. For settings Talos rejects on workers, e.g. machine.features.kubernetesTalosAPIAccess."
+  type        = list(any)
+  default     = []
+}
