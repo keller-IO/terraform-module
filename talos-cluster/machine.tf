@@ -15,6 +15,14 @@ data "talos_machine_configuration" "controlplane" {
   cluster_endpoint = "https://${var.cluster_endpoint_ip}:6443"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
 
+  lifecycle {
+    # A typo in a node name would otherwise drop that node's patches silently.
+    precondition {
+      condition     = alltrue([for name in keys(var.node_config_patches) : contains(keys(merge(local.cp_nodes, local.worker_nodes)), name)])
+      error_message = "Every node_config_patches key must be the name of a node in var.nodes."
+    }
+  }
+
   config_patches = concat([
     yamlencode({
       cluster = {
@@ -92,7 +100,8 @@ data "talos_machine_configuration" "controlplane" {
     })
     ],
     [for patch in var.extra_config_patches : yamlencode(patch)],
-    [for patch in var.extra_controlplane_config_patches : yamlencode(patch)]
+    [for patch in var.extra_controlplane_config_patches : yamlencode(patch)],
+    [for patch in lookup(var.node_config_patches, each.key, []) : yamlencode(patch)]
   )
 }
 
@@ -158,7 +167,8 @@ data "talos_machine_configuration" "worker" {
       hostname   = each.value.name
     })
     ],
-    [for patch in var.extra_config_patches : yamlencode(patch)]
+    [for patch in var.extra_config_patches : yamlencode(patch)],
+    [for patch in lookup(var.node_config_patches, each.key, []) : yamlencode(patch)]
   )
 }
 
